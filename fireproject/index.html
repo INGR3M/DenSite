@@ -83,12 +83,12 @@
             <div class="container_body">
                 <div class="container_coll order">
                     <div class="order_title title title_white">Просто отправьте нам свою контактную информацию и сведения о проекте, и мы предоставим вам оперативное и комплексное предложение </div>
-                    <form action="" class="order_form">
-                         <input type="text" name="name" class="order_field field" placeholder="Как вас зовут?">
-                         <input type="text" name="phone" class="order_field field" placeholder="Номер телефона">
-                         <textarea class="order_field field" name="message" placeholder="Ваше сообщение"></textarea>
-                         <a href="https://www.youtube.com/" class="contacts_btn btn-white btn-animate">Скачать каталог</a>
-                    </form>
+                    <form id="contactForm" class="order_form">
+                        <input type="text" id="name" name="name" class="order_field field" placeholder="Как вас зовут?" required>
+                        <input type="text" id="phone" name="phone" class="order_field field" placeholder="Номер телефона" required>
+                        <textarea id="message" class="order_field field" name="message" placeholder="Ваше сообщение" required></textarea>
+                        <button type="submit" class="contacts_btn btn-white btn-animate">Отправить заявку</button>
+                      </form>
                 </div>
                 <div class="container_coll contacts">
                     <div class="contacts_title title title_white">КОНТАКТЫ</div>
@@ -107,5 +107,6 @@
             </div>
         </div>
     </section>
+    <script src="message_send_scrypt.js"></script>
 </body>
 </html>
