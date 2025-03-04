@@ -50,6 +50,10 @@ app.get('/download-catalog', async (req, res) => {
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Каталог');
 
+        // Настройка ширины столбцов
+        const columnWidths = calculateColumnWidths(data); // Функция для расчета ширины столбцов
+        worksheet['!cols'] = columnWidths;
+
         // Генерируем файл в памяти
         const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
 
@@ -58,10 +62,30 @@ app.get('/download-catalog', async (req, res) => {
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.send(buffer);
     } catch (err) {
-        console.error('Ошибка при создании Excel-файла:', err);
+        console.error('Ошибка при создании Excel-фильма:', err);
         res.status(500).send('Ошибка при создании файла.');
     }
 });
+
+// Функция для расчета ширины столбцов
+function calculateColumnWidths(data) {
+    const maxLengths = {};
+
+    // Находим максимальную длину текста в каждом столбце
+    data.forEach(row => {
+        Object.keys(row).forEach(key => {
+            const length = String(row[key]).length;
+            if (!maxLengths[key] || length > maxLengths[key]) {
+                maxLengths[key] = length;
+            }
+        });
+    });
+
+    // Преобразуем максимальные длины в ширину столбцов
+    return Object.keys(maxLengths).map(key => ({
+        wch: maxLengths[key] + 2, // Добавляем небольшой отступ
+    }));
+}
 
  /* Маршрут для обработки формы и отправки данных в Telegram
 app.post('/send-form', async (req, res) => {
