@@ -1,4 +1,4 @@
-/*отправка через тухлого бота в тг
+//отправка через тухлого бота в тг
 document.getElementById('contactForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -36,4 +36,4 @@ document.getElementById('contactForm').addEventListener('submit', function(event
       alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.');
     });
     document.getElementById('contactForm').reset();
-  }*/
+  }

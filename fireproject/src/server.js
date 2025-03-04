@@ -63,7 +63,7 @@ app.get('/download-catalog', async (req, res) => {
     }
 });
 
-// Маршрут для обработки формы и отправки данных в Telegram
+ /* Маршрут для обработки формы и отправки данных в Telegram
 app.post('/send-form', async (req, res) => {
     const { name, phone, message } = req.body;
 
@@ -72,6 +72,8 @@ app.post('/send-form', async (req, res) => {
         const botToken = '7973300187:AAF8LXe-T4KleDIdRGg9K0mkWVtH04FkdaA';
         const chatId = '647544438';
         const telegramMessage = `Новая заявка с сайта:\nИмя: ${name}\nТелефон: ${phone}\nСообщение: ${message}`;
+
+        console.log('Отправка сообщения в Telegram:', telegramMessage);
 
         const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
@@ -85,6 +87,8 @@ app.post('/send-form', async (req, res) => {
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Ошибка при отправке в Telegram:', errorText);
             throw new Error('Ошибка при отправке в Telegram');
         }
 
@@ -97,7 +101,7 @@ app.post('/send-form', async (req, res) => {
         console.error('Ошибка при отправке в Telegram:', error);
         res.status(500).json({ success: false, message: 'Произошла ошибка при отправке заявки.' });
     }
-});
+});*/ //пока не работает, не уверен, что хочу разбираться в этом
 
 // Запуск сервера
 app.listen(port, () => {
