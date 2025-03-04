@@ -7,6 +7,7 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     const formData = {
       name: document.getElementById('name').value,
       phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
       message: document.getElementById('message').value
     };
 
@@ -17,7 +18,7 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
-    const message = `Новая заявка с сайта:\nИмя: ${data.name}\nТелефон: ${data.phone}\nСообщение: ${data.message}`;
+    const message = `Новая заявка с сайта:\nИмя: ${data.name}\nТелефон: ${data.phone} \nПочта: ${data.email}\nСообщение: ${data.message}`;
 
     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
