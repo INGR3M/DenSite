@@ -2,11 +2,10 @@ const express = require('express');
 const path = require('path');
 const { Client } = require('pg');
 const XLSX = require('xlsx');
+const fetch = require('node-fetch'); // Для отправки запросов к Telegram API
 
 const app = express();
 const port = 3000;
-
-app.use(cors());
 
 // Подключение к PostgreSQL
 const client = new Client({
@@ -21,23 +20,16 @@ client.connect()
     .then(() => console.log('Подключение к базе данных успешно установлено!'))
     .catch(err => console.error('Ошибка подключения к базе данных:', err));
 
+// Middleware для обработки JSON и URL-encoded данных
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Раздача статических файлов из папки public
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Маршрут для главной страницы
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
-});
-
-// Маршрут для скачивания файла catalog.docx
-app.get('/catalog.docx', (req, res) => {
-    const filePath = path.join(__dirname, '../public', 'catalog.docx');
-    res.download(filePath, 'catalog.docx', (err) => {
-        if (err) {
-            console.error('Ошибка при скачивании файла:', err);
-            res.status(500).send('Не удалось скачать файл.');
-        }
-    });
 });
 
 // Маршрут для скачивания Excel-файла с данными из базы данных
@@ -71,11 +63,40 @@ app.get('/download-catalog', async (req, res) => {
     }
 });
 
-// Обработка формы (пример для будущей логики)
-app.post('/send-form', express.json(), (req, res) => {
+// Маршрут для обработки формы и отправки данных в Telegram
+app.post('/send-form', async (req, res) => {
     const { name, phone, message } = req.body;
-    console.log('Получены данные формы:', { name, phone, message });
-    res.json({ success: true, message: 'Ваша заявка успешно отправлена!' });
+
+    try {
+        // Отправляем данные в Telegram
+        const botToken = '7973300187:AAF8LXe-T4KleDIdRGg9K0mkWVtH04FkdaA';
+        const chatId = '647544438';
+        const telegramMessage = `Новая заявка с сайта:\nИмя: ${name}\nТелефон: ${phone}\nСообщение: ${message}`;
+
+        const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: telegramMessage
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка при отправке в Telegram');
+        }
+
+        const result = await response.json();
+        console.log('Сообщение отправлено в Telegram:', result);
+
+        // Отправляем ответ клиенту
+        res.json({ success: true, message: 'Ваша заявка успешно отправлена!' });
+    } catch (error) {
+        console.error('Ошибка при отправке в Telegram:', error);
+        res.status(500).json({ success: false, message: 'Произошла ошибка при отправке заявки.' });
+    }
 });
 
 // Запуск сервера
