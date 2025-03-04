@@ -35,4 +35,5 @@ document.getElementById('contactForm').addEventListener('submit', function(event
       console.error('Ошибка при отправке в Telegram:', error);
       alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.');
     });
+    document.getElementById('contactForm').reset();
   }
