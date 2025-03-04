@@ -1,0 +1,498 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Noto Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    background: white;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+h1, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 87px;
+    color: white;
+}
+
+h2 {
+    font-size: 18px;
+    line-height: 57px;
+    color: white;
+}
+
+.promo_title {
+    animation: text 3s 1;
+}
+
+@keyframes text {
+    0% {
+        color: rgba(255, 255, 255, 0);
+    }
+    75% {
+        color: rgba(255, 255, 255, 1);
+    }
+}
+
+.wrapper_about {
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px;
+}
+
+.header {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    padding-top: 70px;
+}
+
+.wrapper {
+    display: flex; /* Включаем Flexbox */
+    align-items: center; /* Выравниваем элементы по вертикали по центру */
+    justify-content: space-between; /* Распределяем пространство между элементами */
+    max-width: 1200px; /* Ограничиваем ширину контейнера */
+    margin: 0 auto; /* Центрируем контейнер */
+    padding: 0 20px; /* Добавляем отступы по бокам */
+}
+
+.header_buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.header_button {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 1px solid white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.header_button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute; /* Абсолютное позиционирование */
+    left: 50%; /* Сдвигаем логотип на 50% вправо */
+    transform: translateX(-50%); /* Центрируем логотип */
+}
+
+.promo {
+    color: white;
+    width: 100%;
+    height: 100vh;
+    background: url(../img/promo/605.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.promo_caption {
+    font-size: 18px;
+    color: white;
+}
+
+.promo_social {
+    position: absolute;
+    width: 100%;
+    bottom: 32px;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.promo_social_link {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.promo_social_link:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s;
+}
+
+.section {
+    margin-top: 150px;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33px;
+    color: #868585;
+}
+
+.title_white {
+    color: white;
+}
+
+/* ***************************services************************/
+.services_row {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.services_coll {
+    width: 46%;
+}
+
+.services_img {
+    height: 100%;
+    width: 100%;
+}
+
+.services_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.services_caption {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: #303030;
+    margin-bottom: 15px;
+}
+
+.services_item + .services_item {
+    margin-top: 50px;
+}
+
+/* ***************************info************************/
+.info {
+    background-image: url(../img/catalog/info_img2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 128px;
+    padding-bottom: 144px;
+}
+
+.info_title {
+    text-align: center;
+    font-weight: 400;
+}
+
+.text-box {
+    margin-left: 44vw;
+}
+
+.btn:link,
+.btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 40px;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all .2s;
+    position: absolute;
+}
+
+.btn:hover,
+.contacts_btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active,
+.contacts_btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+    background-color: #fff;
+    color: #777;
+}
+
+.btn::after,
+.contacts_btn:after {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+
+.btn-white::after {
+    background-color: #fff;
+}
+
+.btn:hover::after,
+.contacts_btn:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+}
+
+.btn-animated {
+    animation: moveInBottom 5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.contacts_btn:link,
+.contacts_btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 10px 10px 10px;
+    display: flex;
+    border-radius: 100px;
+    transition: all .2s;
+    position: absolute;
+}
+
+.container {
+    background-color: black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 65px;
+    padding-bottom: 65px;
+    color: white;
+}
+
+.container_body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.container_coll {
+    width: 46%;
+}
+
+.container {
+    margin: 0;
+}
+
+.field {
+    font-family: "Noto Sans", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: white;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid 1px white;
+    padding: 0 0 11px;
+    width: 100%;
+}
+
+.container .title {
+    margin-bottom: 60px;
+}
+
+.order_field {
+    margin-bottom: 60px;
+}
+
+.adress {
+    font-style: normal;
+}
+
+.contacts_item {
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.contacts_item + .contacts_item {
+    margin-top: 30px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.contacts_tel {
+    display: block;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+.contacts_tel:hover {
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+/* ***************************Мобилки************************/
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+        line-height: 1.3;
+    }
+
+    h2 {
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    .promo_title {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+    .promo_subtitle {
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    .promo_caption {
+        font-size: 16px;
+    }
+
+    .wrapper {
+        padding: 0 15px;
+    }
+
+    .header {
+        padding-top: 30px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .promo {
+        height: auto;
+        padding: 100px 0;
+    }
+
+    .promo_social {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .section {
+        margin-top: 80px;
+    }
+
+    .services_row {
+        flex-direction: column;
+    }
+
+    .services_coll {
+        width: 100%;
+    }
+
+    .services_item + .services_item {
+        margin-top: 30px;
+    }
+
+    .info_title {
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    .text-box {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .btn {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .container_body {
+        flex-direction: column;
+    }
+
+    .container_coll {
+        width: 100%;
+    }
+
+    .order_field {
+        margin-bottom: 30px;
+    }
+
+    .contacts_item + .contacts_item {
+        margin-top: 20px;
+    }
+}
+
+/* ***************************СупермаленькиеМобилки************************/
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .promo_title {
+        font-size: 24px;
+    }
+
+    .promo_subtitle {
+        font-size: 14px;
+    }
+
+    .promo_caption {
+        font-size: 14px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .info_title {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+    }
+
+    .header_buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .header_button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+}
