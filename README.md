@@ -13,4 +13,5 @@ nodemon — это утилита, которая автоматически п�
 
 .env example:  (создать .env в корне)
 TELEGRAM_BOT_TOKEN=your-bot-token-here
+
 TELEGRAM_CHAT_ID=your-chat-id-here
