@@ -15,8 +15,10 @@ document.getElementById('contactForm').addEventListener('submit', function(event
   })
   .then(response => response.json())
   .then(result => {
-      alert(result.message || 'Заявка отправлена!');
+      alert(result.message || 'Заявка отправлена! Теперь вы можете скачать каталог.');
+      
   })
+  .then(document.getElementById('catalog-btn').setAttribute('onclick', 'alert("Кнопка нажата")'))
   .catch(error => {
       console.error('Ошибка:', error);
       alert('Произошла ошибка, попробуйте снова.');
