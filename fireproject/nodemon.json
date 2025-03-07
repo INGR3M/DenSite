@@ -1,5 +1,5 @@
 {
-    "watch": ["server.js", ".env"],
+    "watch": ["server.js", ".env","public/js/message_send_scrypt.js"],
     "ignore": ["node_modules"],
     "ext": "js,json,env" 
   }
