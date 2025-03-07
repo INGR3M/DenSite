@@ -1,4 +1,5 @@
-require('dotenv').config();
+delete require.cache[require.resolve('dotenv/config')]; // без этого в теории могут возникнуть ошибки
+require('dotenv').config(); // Перезагрузить переменные окружения
 const express = require('express');
 const path = require('path');
 const { Client } = require('pg');
@@ -127,45 +128,6 @@ app.post('/send-message', (req, res) => {
 });
 
 
- /* Маршрут для обработки формы и отправки данных в Telegram
-app.post('/send-form', async (req, res) => {
-    const { name, phone, message } = req.body;
-
-    try {
-        // Отправляем данные в Telegram
-        const botToken = '7973300187:AAF8LXe-T4KleDIdRGg9K0mkWVtH04FkdaA';
-        const chatId = '647544438';
-        const telegramMessage = `Новая заявка с сайта:\nИмя: ${name}\nТелефон: ${phone}\nСообщение: ${message}`;
-
-        console.log('Отправка сообщения в Telegram:', telegramMessage);
-
-        const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: telegramMessage
-            })
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Ошибка при отправке в Telegram:', errorText);
-            throw new Error('Ошибка при отправке в Telegram');
-        }
-
-        const result = await response.json();
-        console.log('Сообщение отправлено в Telegram:', result);
-
-        // Отправляем ответ клиенту
-        res.json({ success: true, message: 'Ваша заявка успешно отправлена!' });
-    } catch (error) {
-        console.error('Ошибка при отправке в Telegram:', error);
-        res.status(500).json({ success: false, message: 'Произошла ошибка при отправке заявки.' });
-    }
-});*/ //пока не работает, не уверен, что хочу разбираться в этом
 //логирование загрузки токенов
 console.log('TOKEN:', process.env.TELEGRAM_BOT_TOKEN);
 console.log('CHAT_ID:', process.env.TELEGRAM_CHAT_ID);
