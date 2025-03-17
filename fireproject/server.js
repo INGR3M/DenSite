@@ -26,12 +26,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Раздача статических файлов из папки public
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Маршрут для главной страницы
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
-});
+const filePath = path.join(__dirname, '../public', 'index.html');
+
+
 
 // Маршрут для скачивания Excel-файла с данными из базы данных
 app.get('/download-catalog', async (req, res) => {
