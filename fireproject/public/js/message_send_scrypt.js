@@ -24,7 +24,7 @@ document.getElementById('contactForm').addEventListener('submit', function(event
         alert(result.message || 'Заявка отправлена! Теперь вы можете скачать каталог.');
         
     })
-    .then(document.getElementById('catalog-btn').setAttribute('onclick', 'alert("Кнопка нажата")'))
+    .then(document.getElementById('catalog-btn').setAttribute('onclick', 'window.location.href = \'/download-catalog\''))
     .catch(error => {
         console.error('Ошибка:', error);
         alert('Произошла ошибка, попробуйте снова.');
