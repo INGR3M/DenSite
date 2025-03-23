@@ -3,7 +3,8 @@ require('dotenv').config(); // Перезагрузить переменные �
 const express = require('express');
 const path = require('path');
 const { Client } = require('pg');
-const XLSX = require('xlsx');
+//const XLSX = require('xlsx-style');
+const ExcelJS = require('exceljs');
 const fetch = require('node-fetch'); // Для отправки запросов к Telegram API
 const app = express();
 const port = 3000;
@@ -32,62 +33,98 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Маршрут для главной страницы
 const filePath = path.join(__dirname, '../public', 'index.html');
 
-
-
-// Маршрут для скачивания Excel-файла с данными из базы данных
 app.get('/download-catalog', async (req, res) => {
     try {
-        // Получаем данные из базы данных
-        const result = await client.query('SELECT * FROM товары');
+        const result = await client.query(`
+            SELECT t.type_id, tt.name as type_name, t.name, t.shtuka, t.priceopt, t.priceneopt
+            FROM tovary t
+            JOIN typetovara tt ON t.type_id = tt.id
+            ORDER BY t.type_id;
+        `);
 
-        // Преобразуем данные в формат, подходящий для Excel
-        const data = result.rows.map(row => ({
-            Название: row.name,
-            Описание: row.description,
-            Цена: row.price,
-        }));
+        const rows = result.rows;
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Каталог');
 
-        // Создаем новый Excel-документ
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Каталог');
+        let currentRow = 1;
+        let currentTypeId = null;
 
-        // Настройка ширины столбцов
-        const columnWidths = calculateColumnWidths(data); // Функция для расчета ширины столбцов
-        worksheet['!cols'] = columnWidths;
+        rows.forEach(row => {
+            if (row.type_id !== currentTypeId) {
+                // Добавляем заголовок группы товаров (Объединённая ячейка)
+                worksheet.mergeCells(currentRow, 1, currentRow, 4);
+                const titleCell = worksheet.getCell(currentRow, 1);
+                titleCell.value = row.type_name;
+                titleCell.font = { bold: true, size: 14 };
+                titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+                titleCell.border = { 
+                    top: { style: 'thick' },    // Жирная граница сверху
+                    bottom: { style: 'thick' }, // Жирная граница снизу
+                    left: { style: 'thick' },   // Жирная граница слева
+                    right: { style: 'thick' }   // Жирная граница справа
+                };
+                currentRow++;
 
-        // Генерируем файл в памяти
-        const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+                // Заголовки столбцов
+                worksheet.addRow(['Наименование', 'Ед. изм.', 'Цена розничная, руб.', 'Цена оптовая, руб.']);
+                worksheet.getRow(currentRow).font = { bold: true };
+                worksheet.getRow(currentRow).alignment = { horizontal: 'center' };
+                worksheet.getRow(currentRow).border = {
+                    bottom: { style: 'thin' },
+                    top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    right: { style: 'thin' },
+                };
+                currentRow++;
 
-        // Отправляем файл пользователю
+                currentTypeId = row.type_id;
+            }
+
+            // Проверяем цены
+            let priceopt = row.priceopt || 'По запросу';
+            let priceneopt = row.priceneopt || '';
+
+            if (!row.priceopt && !row.priceneopt) {
+                priceneopt = 'По запросу';
+            }
+
+            //  Добавляем строку товара
+            worksheet.addRow([row.name, 'шт', priceopt, priceneopt]);
+
+            //  Добавляем границы для строки
+            worksheet.getRow(currentRow).eachCell(cell => {
+                cell.border = {
+                    bottom: { style: 'thin' },
+                    left: { style: 'thin' },
+                    right: { style: 'thin' },
+                };
+            });
+
+            currentRow++;
+        });
+
+        //  Автоматическая ширина колонок
+        worksheet.columns.forEach(column => {
+            let maxLength = 0;
+            column.eachCell({ includeEmpty: true }, cell => {
+                const text = cell.value ? cell.value.toString() : '';
+                maxLength = Math.max(maxLength, text.length);
+            });
+            column.width = maxLength + 2;
+        });
+
+        //  Отправляем файл пользователю
         res.setHeader('Content-Disposition', 'attachment; filename="catalog.xlsx"');
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        res.send(buffer);
+        
+        await workbook.xlsx.write(res);
+        res.end();
+
     } catch (err) {
         console.error('Ошибка при создании Excel-файла:', err);
         res.status(500).send('Ошибка при создании файла.');
     }
 });
-
-// Функция для расчета ширины столбцов
-function calculateColumnWidths(data) {
-    const maxLengths = {};
-
-    // Находим максимальную длину текста в каждом столбце
-    data.forEach(row => {
-        Object.keys(row).forEach(key => {
-            const length = String(row[key]).length;
-            if (!maxLengths[key] || length > maxLengths[key]) {
-                maxLengths[key] = length;
-            }
-        });
-    });
-
-    // Преобразуем максимальные длины в ширину столбцов
-    return Object.keys(maxLengths).map(key => ({
-        wch: maxLengths[key] + 2, // Добавляем небольшой отступ
-    }));
-}
 
 // Маршрут для получения конфигурации
 app.post('/send-message', (req, res) => {
