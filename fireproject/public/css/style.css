@@ -56,6 +56,14 @@ h2 {
     padding-top: 70px;
 }
 
+.wrapper_main{
+
+    display: flex;
+    align-items: center;
+    margin: 0 auto; /* Центрируем контейнер */
+    padding: 0 20px; /* Добавляем отступы по бокам */
+}
+
 .wrapper {
     display: flex; /* Включаем Flexbox */
     align-items: center; /* Выравниваем элементы по вертикали по центру */
@@ -85,6 +93,9 @@ h2 {
 }
 
 .logo {
+    display: flex;
+    justify-content: center;
+    padding-right: 350px;
     color: white;
     font-size: 30px;
     font-weight: bold;
@@ -284,16 +295,66 @@ h2 {
     }
 }
 
-.contacts_btn:link,
-.contacts_btn:visited {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 15px 10px 10px 10px;
-    display: flex;
-    border-radius: 100px;
-    transition: all .2s;
-    position: absolute;
+.contacts_btn {
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
 }
+
+.contacts_btn:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.contacts_btn:active {
+    color: #000
+}
+
+.contacts_btn:active:after {
+    background: transparent;
+}
+
+.contacts_btn:hover:before {
+    opacity: 1;
+}
+
+.contacts_btn:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+   
 
 .container {
     background-color: black;
