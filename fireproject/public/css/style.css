@@ -88,9 +88,8 @@ h2 {
     color: white;
     font-size: 30px;
     font-weight: bold;
-    position: absolute; /* Абсолютное позиционирование */
-    left: 50%; /* Сдвигаем логотип на 50% вправо */
-    transform: translateX(-50%); /* Центрируем логотип */
+    flex-grow: 1; /* Позволяет лого занимать все доступное пространство */
+    text-align: center; /* Центрирует текст внутри блока */
 }
 
 .promo {
