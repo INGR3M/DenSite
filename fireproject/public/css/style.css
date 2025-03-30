@@ -209,7 +209,8 @@ h2 {
 }
 
 .text-box {
-    margin-left: 44vw;
+    display: flex;
+    justify-content: center;
 }
 
 .btn {
