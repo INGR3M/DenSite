@@ -165,11 +165,6 @@ app.post('/send-message', (req, res) => {
     });
 });
 
-
-//логирование загрузки токенов
-console.log('TOKEN:', process.env.TELEGRAM_BOT_TOKEN);
-console.log('CHAT_ID:', process.env.TELEGRAM_CHAT_ID);
-
 // Запуск сервера
 app.listen(port, () => {
     console.log(`Сервер запущен на http://localhost:${port}`);
